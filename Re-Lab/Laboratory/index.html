@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1.0">
+		<link rel="apple-touch-icon" href="favicon.png">
+		<title>Re-Lab</title>
+		<!-- Preloaded javascript -->
+		<script src="javascript/prerequired.js" type="text/javascript"></script>
+	</head>
+	
+	
+	<body style="margin:0px;touch-action:none">
+		<canvas id="mainCanvas"></canvas>
+		<canvas id="frontPanel"></canvas>
+
+		<script type="text/xml" src="xml/story.xml"></script>
+		<script type="text/javascript">
+console.log("start of javascript");
+
+//-----------------
+function myFunction(xml) {
+//console.log("xml",xml);
+    var xmlDoc = xml.responseXML;
+//	console.log("xmlDoc.documentElement('location')=",xmlDoc.getElementsByTagName('location'));
+//	console.log("xmlDoc.documentElement('HTMLCollection')=",xmlDoc.getElementsByTagName('HTMLCollection'));
+	let firstTag = xmlDoc.firstChild;
+//  console.log("xmlDoc=",xmlDoc);
+  console.log("firstTag.nodeName='"+firstTag.nodeName+"'");
+//  console.log("firstTag.attributes =",firstTag.attributes);
+//  console.log("firstTag.attributes.length =",firstTag.attributes.length);
+  for (let i=0;i<firstTag.attributes.length;i++) {
+//	console.log("item="+i);
+//	console.log("firstTag.attributes.item("+i+")=",firstTag.attributes.item(i));
+	let tagName = firstTag.attributes.item(i).name;
+//	console.log("    tagName =",tagName);
+	let value = firstTag.getAttribute(tagName);
+	console.log("tiem("+i+") {"+tagName+": '"+value+"'}");
+  }
+  //console.log("firstTag.attributes.item(1)=",firstTag.attributes.item(1));
+  //let attrib = new DOMParser().parseFromString(firstTag.attributes);
+  const parser = new DOMParser();
+  let attrib = parser.parseFromString(xml,"text/xml");//'<foo oy="vey" foo="bar" here="is" another="attribute" />',"text/xml");
+  //console.log("attrib=",attrib.childNodes);
+  //attrib.childNodes.forEach((att)=>console.log("att=",att));
+  //console.log("firstTag.getAttribute('id')='"+firstTag.getAttribute('id')+"'");
+  //console.log("firstTag.childNodes =",firstTag.childNodes);
+  //console.log("Object.getOwnPropertyNames(xmlDoc.firstChild)='"+Object.getOwnPropertyNames(xmlDoc.firstChild)+"'");
+  //	console.log("xmlDoc.firstChild.textContent=",xmlDoc.firstChild.textContent);
+  //console.log("object2String(xmlDoc)="+object2String(xmlDoc));
+}
+var xhttp = new XMLHttpRequest();
+xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+    myFunction(this);
+    }
+};
+xhttp.open("GET", "xml/story.xml", true);
+xhttp.send();
+//-----------------
+//file = fopen(getScriptPath("xml/story.xml"), 0);
+//file_length = flength(file);
+//content = fread(file, file_length);
+//
+//function myFunction(xml) {
+//    var xmlDoc = xml.responseXML;
+//    document.getElementById("demo").innerHTML =
+//    xmlDoc.getElementsByTagName("title")[0].childNodes[0].nodeValue;
+//}
+//console.log("game=",game);
+//------------------
+//var reader = new FileReader();
+//reader.onload = function (e) {
+//	var imgUrl=e.target.result;
+//	img = document.createElement("img");
+//	img.src =  imgUrl;
+//	document.body.appendChild(img);
+//console.log("imgUrl=",imgUrl);
+////
+//////	//process text to show only lines with "@":
+//////	output=output.split("\n").filter(/./.test, /\@/).join("\n");
+////
+//////	document.getElementById('main').innerHTML= output;
+//console.log("e", e);
+//};//end onload()
+//let textFileAsBlob = new Blob(["images/book.screenshot.jpg"], {type: 'image/jpg'});
+////reader.readAsText(textFileAsBlob);
+//reader.readAsBinaryString(textFileAsBlob);
+//----------------------------
+readImageFiles( "images/book.screenshot.jpg", (img)=>document.body.appendChild(img));
+console.log("image read");
+
+
+////--------------------------
+//var reader = new FileReader()
+//reader.onloadend=function(e){
+//
+//	console.log("e",e);
+//
+//    var data = e.target.result;
+//    //data is not in xml format
+//console.log("data=",data);
+////    var xml = str2xml(data);
+//    //getting error
+//    /*
+//     using DOM parser for xml parsing
+//    */
+//}
+//let xmlUrlAsBlob = new Blob(['xml/story.xml'], {type: 'text/xml'});
+////reader.readAsBinaryString(xmlUrlAsBlob);
+////reader.readAsText(xmlUrlAsBlob);
+////reader.readAsArrayBuffer(xmlUrlAsBlob);
+//reader.readAsDataURL(xmlUrlAsBlob);
+//----------------------------------
+
+
+			let screenSize = viewPortSize();
+			// Incase of resize of the screen, i.e. unit is turned
+			window.addEventListener('resize', function(event){
+				// update screenView size
+				screenSize = viewPortSize();
+//				mouseHandler.setSize(screenSize);
+//				menu.setSize(screenSize);
+//				magneticField.setSize(screenSize);
+//				board.setSize(screenSize);
+//console.log("c.width=",c.width);
+//console.log("canvas.(width,height)=("+canvas.width+","+canvas.height+")");
+//console.log("cange ("+canvas.width+","+canvas.height+") to ("+screenSize.width+","+screenSize.height+")");
+//				canvas.setAttribute('width', screenSize.width);
+//				canvas.setAttribute('height', screenSize.height);
+//				prepareCanvas();
+//				c.width = screenSize.width;
+//				c.height = screenSize.height;
+				canvas.width = screenSize.width;
+				canvas.height = screenSize.height;
+//				canvas.style.width = screenSize.width;
+//				canvas.style.height = screenSize.height;
+//console.log("canvas.(width,height)=("+canvas.width+","+canvas.height+")");
+				sceneNeedUpdate=true;
+				sceneNeedRedrawn=true;
+			}); // addEventListener
+
+	  
+//let links = document.getElementsByTagName('link');
+//console.log("links=",links);
+			// HTML Container
+//			var container = document.createElement('div');
+			window.addEventListener("load", function(){
+console.log("all module are loded");
+//book.screenshot.jpg
+//				document.body.appendChild(container);
+			});
+//			container.id = "main";
+
+//----------------------------
+//// Local storage https://www.w3schools.com/html/html5_webstorage.asp
+//console.log("typeof(Storage)=",typeof(Storage));
+//// Read
+//if (localStorage.lastname) {
+//	console.log("test:", localStorage.getItem("lastname"));
+//   localStorage.removeItem("lastname");
+//} else {
+//   // Store
+//   localStorage.setItem("lastname", "Smith");
+//}
+readLocalStorage("startScreen");
+
+			let canvas = document.getElementById("mainCanvas");
+			const context = canvas.getContext("2d");
+console.log("screenSize=",screenSize);
+let x = 0.5;
+let y = 0.5;
+let radies = 0.01;
+context.fillStyle = "blue";
+context.beginPath();
+context.moveTo(0,0);
+context.lineTo(100,100);
+context.strokeStyle = "black";
+context.lineWidth = 2;
+context.stroke();
+
+context.beginPath();
+context.arc(screenSize.width/2+x*screenSize.scale/2,
+			screenSize.height/2+y*screenSize.scale/2,
+			radies*screenSize.scale/2,
+			0,
+			2*Math.PI,
+			true);
+context.closePath();
+context.fill();
+
+
+		</script>
+	</body>
+<html>
+
