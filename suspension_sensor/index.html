@@ -16,7 +16,7 @@
       console.log("error:",error);
     }
 
-    console.log("navigator:");
+    console.log("navigator:",navigator);
     navigator.bluetooth.requestDevice({ filters: [{ services: ['battery_service'] }] })
       .then(device => { /* … */ })
       .catch(error => { console.error(error); });
