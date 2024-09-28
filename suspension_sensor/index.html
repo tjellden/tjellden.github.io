@@ -9,6 +9,7 @@
   <ul id="deviceList"></ul>
 
   <script>
+    console.log(device);
     document.getElementById('scanButton').addEventListener('click', async () => {
       try {
         const device = await navigator.bluetooth.requestDevice({
