@@ -1,1 +1,36 @@
-test
+<!DOCTYPE html>
+<html>
+<head>
+  <title>BLE Dashboard</title>
+</head>
+<body>
+  <h1>BLE Dashboard</h1>
+  <button id="scanButton">Scan for Devices</button>
+  <ul id="deviceList"></ul>
+
+  <script>
+    document.getElementById('scanButton').addEventListener('click', async () => {
+      try {
+        const device = await navigator.bluetooth.requestDevice({
+          acceptAllDevices: true,
+          optionalServices: ['battery_service']
+        });
+
+        const server = await device.gatt.connect();
+        const service = await server.getPrimaryService('battery_service');
+        const characteristic = await service.getCharacteristic('battery_level');
+        const value = await characteristic.readValue();
+        const batteryLevel = value.getUint8(0);
+
+        const deviceList = document.getElementById('deviceList');
+        const listItem = document.createElement('li');
+        listItem.textContent = `${device.name} - Battery Level: ${batteryLevel}%`;
+        deviceList.appendChild(listItem);
+      } catch (error) {
+        console.error(error);
+      }
+    });
+  </script>
+</body>
+</html>
+
