@@ -10,7 +10,12 @@
 
   <script>
     console.log("devices:");
-    console.log(devices);
+    try {
+      console.log(devices);
+    } catch (error) {
+      console.error(error);
+    }
+    
     document.getElementById('scanButton').addEventListener('click', async () => {
       try {
         const device = await navigator.bluetooth.requestDevice({
