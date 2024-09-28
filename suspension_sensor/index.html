@@ -15,6 +15,12 @@
     } catch (error) {
       console.log("error:",error);
     }
+
+    console.log("navigator:");
+    navigator.bluetooth.requestDevice({ filters: [{ services: ['battery_service'] }] })
+      .then(device => { /* … */ })
+      .catch(error => { console.error(error); });
+
     
     document.getElementById('scanButton').addEventListener('click', async () => {
       try {
